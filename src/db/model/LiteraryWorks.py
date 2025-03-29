@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy import Column, Integer, String, Date, DateTime
 
 from src.db.connect import Base
 
@@ -10,5 +10,5 @@ class LiteraryWorks(Base):
     name = Column(String, unique=True)
     response = Column(String)
     llm = Column(String, default="giga")
-    create_date = Column(Date)
-    updata_date = Column(Date)
+    create_date = Column(DateTime)
+    updata_date = Column(DateTime)
