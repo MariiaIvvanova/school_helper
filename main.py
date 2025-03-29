@@ -1,11 +1,4 @@
-from src.llm.giga_chat import messages, HumanMessage, giga
+from src.telegram.bot import bot
 
-
-while True:
-    user_input = input("Пользователь: ")
-    if user_input == "пока":
-      break
-    messages.append(HumanMessage(content=user_input))
-    res = giga.invoke(messages)
-    messages.append(res)
-    print("GigaChat: ", res.content)
+if __name__ == "__main__":
+    bot()

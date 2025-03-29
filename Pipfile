@@ -8,6 +8,8 @@ requests = "*"
 langchain-gigachat = "*"
 python-telegram-bot = "*"
 python-dotenv = "*"
+sqlalchemy = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
