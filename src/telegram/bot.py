@@ -2,12 +2,12 @@ import logging
 
 from telegram.ext import ApplicationBuilder, CommandHandler
 
-from src.config import Config
+from src.config import config
 from src.telegram.commands import FIND_COMMAND, START_COMMAND
 from src.telegram.handler.find_litres import find_command
 from src.telegram.handler.start import start_command
 
-config = Config()
+
 TOKEN = config.TG_BOT_KEY
 
 # Включаем логгирование для удобства отладки

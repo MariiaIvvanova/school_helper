@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Литературные произведения</title>
+</head>
+<body>
+    <h1>Список литературных произведений</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Ответ LLM</th>
+            <th>Модель LLM</th>
+            <th>Дата создания</th>
+            <th>Дата обновления</th>
+        </tr>
+        {% for work in literary_works %}
+        <tr>
+            <td>{{ work.id }}</td>
+            <td>{{ work.name }}</td>
+            <td>{{ work.response }}</td>
+            <td>{{ work.llm }}</td>
+            <td>{{ work.create_date }}</td>
+            <td>{{ work.updata_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div>
+        {% if page > 1 %}
+            <a href="{{ url_for('index', page=page-1) }}">« Назад</a>
+        {% endif %}
+
+        <span>Страница {{ page }} из {{ total_pages }}</span>
+
+        {% if page < total_pages %}
+            <a href="{{ url_for('index', page=page+1) }}">Вперед »</a>
+        {% endif %}
+    </div>
+</body>
+</html>

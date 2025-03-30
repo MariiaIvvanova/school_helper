@@ -20,3 +20,15 @@ class LiteraryWorksRepository:
 
     def get_by_name(self, name):
         return self.session.query(LiteraryWorks).filter(LiteraryWorks.name == name).first()
+
+    def count(self):
+        return self.session.query(LiteraryWorks).count()
+
+    def get_paginated_list(self, page, per_page):
+        return (
+            self.session.query(LiteraryWorks)
+            .order_by(LiteraryWorks.create_date.desc())
+            .offset((page - 1) * per_page)
+            .limit(per_page)
+            .all()
+        )
