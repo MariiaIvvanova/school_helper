@@ -2,6 +2,8 @@ from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 
+from src.db.repository.UsersRepository import UsersRepository
+from src.service.UsersService import UsersService
 
 message = """📖 Telegram-бот "Литературный справочник"
 
@@ -30,4 +32,22 @@ message = """📖 Telegram-бот "Литературный справочник
 
 # Обработчик команды /start
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(message, parse_mode=ParseMode.MARKDOWN)
+    users_service = UsersService(UsersRepository)
+    user = users_service.check_registr(id)
+    if user:
+        await update.message.reply_text(message, parse_mode=ParseMode.MARKDOWN)
+    else:
+        # ввод почты тут
+        pass
+
+
+#
+# UsersService.check_users
+# if users
+#     print(start)
+# else
+#     print("введите почту")
+#     UsersService.registr()
+#     print(start)
+
+
