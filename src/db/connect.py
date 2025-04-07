@@ -4,17 +4,20 @@ from contextlib import contextmanager
 
 from src.config import config
 
-
 Base = declarative_base()
-engine = create_engine(config.DATABASE_URL)
-Base.metadata.create_all(engine)
+
+def init_db():
+    """
+    Инициализирует базу данных и создает все таблицы
+    """
+    engine = create_engine(config.DATABASE_URL)
+    Base.metadata.create_all(engine)
+    return engine
+
+# Создаем движок базы данных
+engine = init_db()
 
 Session = sessionmaker(bind=engine)
 
-@contextmanager
 def get_session():
-    session = Session()
-    try:
-        yield session
-    finally:
-        session.close()
+    return Session()

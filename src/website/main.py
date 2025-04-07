@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, current_app
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
-from src.config import config
 from src.db.connect import get_session
 from src.db.model.LiteraryWorks import LiteraryWorks
 from src.db.repository.LiteraryWorksRepository import LiteraryWorksRepository

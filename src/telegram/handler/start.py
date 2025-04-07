@@ -32,36 +32,4 @@ message = """📖 Telegram-бот "Литературный справочник
 
 # Обработчик команды /start
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Проверяем, не ожидаем ли мы уже email
-    if context.user_data.get('awaiting_email'):
-        await update.message.reply_text(
-            "Пожалуйста, сначала введите ваш email адрес.",
-            parse_mode=ParseMode.MARKDOWN
-        )
-        return
-
-    users_service = UsersService(UsersRepository)
-    user = users_service.check_registr(update.effective_user.id)
-    
-    if user:
-        await update.message.reply_text(message, parse_mode=ParseMode.MARKDOWN)
-    else:
-        # Запрашиваем email у пользователя
-        await update.message.reply_text(
-            "Для начала работы, пожалуйста, отправьте свой email адрес.",
-            parse_mode=ParseMode.MARKDOWN
-        )
-        # Сохраняем состояние ожидания email
-        context.user_data['awaiting_email'] = True
-
-
-#
-# UsersService.check_users
-# if users
-#     print(start)
-# else
-#     print("введите почту")
-#     UsersService.registr()
-#     print(start)
-
-
+    await update.message.reply_text(message, parse_mode=ParseMode.MARKDOWN)

@@ -10,14 +10,14 @@ class GigaClient(LLMClient):
     def __init__(self):
         self.giga = GigaChat(
             credentials=config.GIGA_CHAT_AUTH_KEY,
-            verify_ssl_certs=False,
+            verify_ssl_certs=False,  # ⚠️ Не рекомендуется отключать SSL в проде
         )
-        messages = [
-            SystemMessage(
-                content=system_promt
-            )
-        ]
+        self.system_message = SystemMessage(content=system_promt)
 
-    def send(self, promt):
-        res = self.giga.invoke(promt)
-        return res.content
+    def send(self, prompt: str) -> str:
+        messages = [
+            self.system_message,
+            HumanMessage(content=prompt),
+        ]
+        response = self.giga.invoke(messages)
+        return response.content

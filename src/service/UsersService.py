@@ -1,10 +1,10 @@
-from src.db.connect import session
+from src.db.connect import get_session
 from src.db.repository import UsersRepository
 
 
 class UsersService:
     def __init__(self, users_repo: UsersRepository):
-        self.users_repo = users_repo(session)
+        self.users_repo = users_repo(get_session())
 
     def check_registr(self, telegram_id: str) -> bool:
         """

@@ -1,4 +1,4 @@
-from src.db.connect import session
+from src.db.connect import get_session
 from src.db.repository import LiteraryWorksRepository
 from src.llm.constant import defoult_llm
 from src.llm.factory import llm_client
@@ -6,7 +6,7 @@ from src.llm.factory import llm_client
 
 class LiteraryWorksService:
     def __init__(self, literary_repo: LiteraryWorksRepository):
-        self.literary_repo = literary_repo(session)
+        self.literary_repo = literary_repo(get_session())
         
     def upsert_literary(self, name: str) -> str:
         try:

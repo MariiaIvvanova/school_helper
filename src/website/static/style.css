@@ -1,0 +1,37 @@
+body {
+    background-color: #fefaf2;
+    font-family: 'Merriweather', serif;
+    color: #2e2e2e;
+}
+
+h1, h2, h3 {
+    color: #5a3e1b;
+}
+
+.work-card {
+    background-color: #fffdf9;
+    border-left: 5px solid #c49b66;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: box-shadow 0.3s ease;
+}
+
+.work-card:hover {
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+
+.text-muted {
+    color: #998866 !important;
+}
+
+.btn-outline-primary {
+    border-color: #c49b66;
+    color: #c49b66;
+}
+
+.btn-outline-primary:hover {
+    background-color: #c49b66;
+    color: white;
+}

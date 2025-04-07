@@ -28,10 +28,8 @@ async def handle_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         
         if user:
-            # Очищаем состояние ожидания email
             context.user_data.pop('awaiting_email', None)
             
-            # Отправляем приветственное сообщение
             await update.message.reply_text(
                 "Спасибо за регистрацию! Теперь вы можете использовать бота.\n"
                 "Используйте команду /find для поиска информации о книгах.",
@@ -46,4 +44,4 @@ async def handle_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             "Произошла ошибка при обработке email. Пожалуйста, попробуйте позже.",
             parse_mode=ParseMode.MARKDOWN
-        ) 
+        )
