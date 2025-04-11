@@ -8,17 +8,7 @@ class UsersRepository:
         self.session = session
 
     def create(self, telegram_id: str, user_name: str, email: str) -> Users:
-        """
-        Создает нового пользователя
-        
-        Args:
-            telegram_id (str): ID пользователя в Telegram
-            user_name (str): Имя пользователя
-            email (str): Email пользователя
-            
-        Returns:
-            Users: Созданный пользователь
-        """
+        # Создает нового пользователя
         now = datetime.now()
         now_date = now.isoformat(timespec='milliseconds')
         new_user = Users(
@@ -34,24 +24,16 @@ class UsersRepository:
         return new_user
 
     def get_by_telegram_id(self, telegram_id: str) -> Users:
-        """
-        Получает пользователя по telegram_id
-        
-        Args:
-            telegram_id (str): ID пользователя в Telegram
-            
-        Returns:
-            Users: Пользователь или None, если не найден
-        """
+        # Получает пользователя по telegram_id
         return self.session.query(Users).filter(Users.id == telegram_id).first()
 
     def set_block(self, telegram_id: str, is_block: bool) -> None:
-        """
-        Устанавливает статус блокировки пользователя
-        
-        Args:
-            telegram_id (str): ID пользователя в Telegram
-            is_block (bool): Статус блокировки
-        """
+        # Устанавливает статус блокировки пользователя
         self.session.query(Users).filter(Users.id == telegram_id).update({"is_block": is_block})
         self.session.commit()
+
+    def check_block(self, telegram_id: str) -> bool:
+        user = self.session.query(Users).filter(Users.id == telegram_id).first()
+        if user:
+            return user.is_block
+        return False

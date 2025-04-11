@@ -45,3 +45,10 @@ class UsersService:
         except Exception as e:
             print(f"Ошибка при регистрации пользователя: {str(e)}")
             return None
+
+    def is_user_blocked(self, id: str) -> bool:
+        try:
+            return self.users_repo.check_block(id)
+        except Exception as e:
+            print(f"Ошибка при проверке блокировки пользователя: {str(e)}")
+            return False

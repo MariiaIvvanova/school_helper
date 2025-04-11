@@ -2,8 +2,7 @@ from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 
-from src.db.repository.UsersRepository import UsersRepository
-from src.service.UsersService import UsersService
+from src.telegram.middleware.block import block
 
 message = """📖 Telegram-бот "Литературный справочник"
 
@@ -32,4 +31,9 @@ message = """📖 Telegram-бот "Литературный справочник
 
 # Обработчик команды /start
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Проверка блокировки
+    is_blocked = await block(update, context)
+    if is_blocked:
+        return
+
     await update.message.reply_text(message, parse_mode=ParseMode.MARKDOWN)

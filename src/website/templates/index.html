@@ -1,39 +1,46 @@
-
-
 {% extends "base.html" %}
 
 {% block content %}
 <h1>Литературные произведения</h1>
+<p class="lead">Коллекция оригинальных текстов, созданных при помощи нейросетей. Читайте, вдохновляйтесь и открывайте новые грани литературного творчества.</p>
 
 <div class="container">
     <div class="row">
         {% for work in literary_works %}
         <div class="col-12 mb-4">
-            <div class="work-card">
-                <h2>{{ work.name }}</h2>
+            <article class="work-card" itemscope itemtype="https://schema.org/CreativeWork">
+                <header>
+                    <h2 itemprop="headline">{{ work.name }}</h2>
+                </header>
 
-                <div>
+                <section itemprop="text">
                     {{ work.response }}
-                </div>
+                </section>
 
-                <div class="text-muted mt-2">
-                    Автор — {{ work.llm }}, Дата создания — {{ work.create_date }}
-                </div>
-            </div>
+                <footer class="text-muted mt-2">
+                    Автор — <span itemprop="author">{{ work.llm }}</span>,
+                    <time datetime="{{ work.create_date.strftime('%Y-%m-%d') }}" itemprop="datePublished">
+                        {{ work.create_date.strftime('%d.%m.%Y') }}
+                    </time>
+                </footer>
+
+            </article>
         </div>
         {% endfor %}
+    </div>
 
+    <nav aria-label="Навигация по страницам">
         <div class="mt-4 d-flex justify-content-between align-items-center">
             {% if page > 1 %}
-                <a href="{{ url_for('index', page=page-1) }}" class="btn btn-outline-primary">« Назад</a>
+                <a href="{{ url_for('index', page=page-1) }}" class="btn btn-outline-primary" rel="prev">« Назад</a>
             {% endif %}
 
             <span class="mx-2">Страница {{ page }} из {{ total_pages }}</span>
 
             {% if page < total_pages %}
-                <a href="{{ url_for('index', page=page+1) }}" class="btn btn-outline-primary">Вперед »</a>
+                <a href="{{ url_for('index', page=page+1) }}" class="btn btn-outline-primary" rel="next">Вперед »</a>
             {% endif %}
         </div>
-    </div>
+    </nav>
 </div>
 {% endblock %}

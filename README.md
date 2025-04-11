@@ -64,11 +64,6 @@ make run-bot
 make run-web
 ```
 
-### Запуск тестов
-
-```bash
-make test
-```
 
 
 ## Структура проекта

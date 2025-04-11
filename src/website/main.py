@@ -4,7 +4,7 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
 from src.db.connect import get_session
-from src.db.model.LiteraryWorks import LiteraryWorks
+from src.db.model.Users import Users
 from src.db.repository.LiteraryWorksRepository import LiteraryWorksRepository
 from src.service.LiteraryWorksService import LiteraryWorksService
 
@@ -15,7 +15,7 @@ app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
 
 admin = Admin(app, name='microblog', template_mode='bootstrap3')
 # Add administrative views here
-admin.add_view(ModelView(LiteraryWorks, get_session()))
+admin.add_view(ModelView(Users, get_session()))
 
 @app.route('/')
 def index():

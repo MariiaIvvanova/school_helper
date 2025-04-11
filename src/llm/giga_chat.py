@@ -10,7 +10,7 @@ class GigaClient(LLMClient):
     def __init__(self):
         self.giga = GigaChat(
             credentials=config.GIGA_CHAT_AUTH_KEY,
-            verify_ssl_certs=False,  # ⚠️ Не рекомендуется отключать SSL в проде
+            verify_ssl_certs=False,
         )
         self.system_message = SystemMessage(content=system_promt)
 

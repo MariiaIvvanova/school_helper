@@ -28,3 +28,10 @@ class RatingLiteraryWorksRepository:
         average_rating = (self.session.query(func.avg(RatingLiteraryWorks.rating))
                           .filter(RatingLiteraryWorks.work_id == work_id).scalar())
         return average_rating
+
+    def count_ratings(self, work_id):
+        # Используем агрегатную функцию COUNT для подсчета количества оценок
+        rating_count = (self.session.query(func.count(RatingLiteraryWorks.rating))
+                        .filter(RatingLiteraryWorks.work_id == work_id)
+                        .scalar())
+        return rating_count

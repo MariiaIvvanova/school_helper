@@ -6,6 +6,8 @@ from src.db.repository.LiteraryWorksRepository import LiteraryWorksRepository
 from src.db.repository.UsersRepository import UsersRepository
 from src.service.LiteraryWorksService import LiteraryWorksService
 from src.service.UsersService import UsersService
+from src.telegram.middleware.block import block
+from src.telegram.middleware.word_limit_in_query import word_limit_in_query
 
 
 async def find_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -28,8 +30,16 @@ async def find_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
+    # Проверка блокировки
+    is_blocked = await block(update, context)
+    if is_blocked:
+        return
+
     # Обработка команды /find
     message = " ".join(update.message.text.replace("/find", "").lower().split())
+
+    if not await word_limit_in_query(update, message):
+        return
     if not message:
         await update.message.reply_text("Вы ничего не написали")
         return
