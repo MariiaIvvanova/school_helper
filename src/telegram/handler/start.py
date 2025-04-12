@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 
-from src.telegram.middleware.is_block import check_blocked
+from src.telegram.middleware.check_block import check_blocked
 
 message = """📖 Telegram-бот "Литературный справочник"
 

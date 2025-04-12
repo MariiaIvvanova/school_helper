@@ -4,10 +4,10 @@ from telegram.ext import ContextTypes
 
 from src.db.repository.LiteraryWorksRepository import LiteraryWorksRepository
 from src.service.LiteraryWorksService import LiteraryWorksService
-from src.telegram.middleware.is_block import check_blocked
-from src.telegram.middleware.is_message import check_message_not_empty
-from src.telegram.middleware.is_register import check_register
-from src.telegram.middleware.word_limit_in_query import word_limit_in_query
+from src.telegram.middleware.check_block import check_blocked
+from src.telegram.middleware.check_message import check_message_not_empty
+from src.telegram.middleware.check_register import check_register
+from src.telegram.middleware.check_word_limit_in_query import word_limit_in_query
 
 
 @check_blocked()
