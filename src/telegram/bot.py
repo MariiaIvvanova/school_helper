@@ -6,7 +6,7 @@ from src.config import config
 from src.telegram.commands import FIND_COMMAND, START_COMMAND
 from src.telegram.handler.find_litres import find_command
 from src.telegram.handler.start import start_command
-from src.telegram.middleware.email import handle_email
+from src.telegram.handler.email import handle_email
 
 
 TOKEN = config.TG_BOT_KEY

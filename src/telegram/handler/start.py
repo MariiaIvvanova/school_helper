@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 
-from src.telegram.middleware.block import block
+from src.telegram.middleware.is_block import check_blocked
 
 message = """📖 Telegram-бот "Литературный справочник"
 
@@ -28,12 +28,7 @@ message = """📖 Telegram-бот "Литературный справочник
 ```
 """
 
-
+@check_blocked()    # Проверка блокировки
 # Обработчик команды /start
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Проверка блокировки
-    is_blocked = await block(update, context)
-    if is_blocked:
-        return
-
     await update.message.reply_text(message, parse_mode=ParseMode.MARKDOWN)
