@@ -4,7 +4,7 @@ from telegram.constants import ParseMode
 from functools import wraps
 
 
-def word_limit_in_query(func):
+def check_word_limit_in_query(func):
     @wraps(func)
     async def wrapper(update: Update, *args, **kwargs):
         message = update.message.text.strip()  # Получаем текст сообщения

@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from src.db.model.LiteraryWorks import LiteraryWorks
+from src.llm.constant import defoult_llm
 
 
 class LiteraryWorksRepository:
@@ -17,6 +18,17 @@ class LiteraryWorksRepository:
                                  updata_date=now_date)
         self.session.add(new_user)
         self.session.commit()
+
+    def update_response(self, liter_id, response, llm=defoult_llm):
+        now = datetime.now().isoformat(timespec='milliseconds')
+        literary = self.session.query(LiteraryWorks).filter(LiteraryWorks.id == liter_id).first()
+        if literary:
+            literary.response = response
+            literary.llm = llm
+            literary.updata_date = now
+            self.session.commit()
+        else:
+            raise ValueError(f"Произведение с id={liter_id} не найдено.")
 
     def get_by_name(self, name):
         return self.session.query(LiteraryWorks).filter(LiteraryWorks.name == name).first()

@@ -6,7 +6,9 @@ from flask_admin.contrib.sqla import ModelView
 from src.db.connect import get_session
 from src.db.model.Users import Users
 from src.db.repository.LiteraryWorksRepository import LiteraryWorksRepository
+from src.db.repository.RatingLiteraryWorksRepository import RatingLiteraryWorksRepository
 from src.service.LiteraryWorksService import LiteraryWorksService
+from src.service.RatingLiteraryWorksService import RatingLiteraryWorksService
 
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'dev-key-please-change-in-production')
@@ -20,7 +22,7 @@ admin.add_view(ModelView(Users, get_session()))
 @app.route('/')
 def index():
     try:
-        literary_works_service = LiteraryWorksService(LiteraryWorksRepository)
+        literary_works_service = LiteraryWorksService(LiteraryWorksRepository, RatingLiteraryWorksService, RatingLiteraryWorksRepository)
 
         # Получаем номер страницы, по умолчанию 1
         page = request.args.get('page', 1, type=int)
