@@ -1,5 +1,5 @@
 from src.db.connect import get_session
-from src.db.repository import LiteraryWorksRepository
+from src.db.repository.LiteraryWorksRepository import LiteraryWorksRepository
 from src.db.repository.RatingLiteraryWorksRepository import RatingLiteraryWorksRepository
 from src.service import RatingLiteraryWorksService
 from src.llm.constant import defoult_llm
@@ -8,8 +8,9 @@ from src.llm.factory import llm_client
 
 class LiteraryWorksService:
     def __init__(self, literary_repo: LiteraryWorksRepository, rating_literary_works: RatingLiteraryWorksService, rating_literary_works_repo: RatingLiteraryWorksRepository):
-        self.literary_repo = literary_repo(get_session())
-        self.rating_literary_works = rating_literary_works(rating_literary_works_repo, literary_repo)
+        self.literary_repo = literary_repo
+        self.rating_literary_works = rating_literary_works
+        self.rating_literary_works_repo = rating_literary_works_repo
 
     def upsert_literary(self, name: str) -> str:
         try:
@@ -19,8 +20,7 @@ class LiteraryWorksService:
                     return liter.response
                 else:
                     # Удаляем старые оценки перед обновлением
-                    self.rating_literary_works.rating_literary_works.delete_ratings_by_work_id(liter.id)
-
+                    self.rating_literary_works_repo.delete_ratings_by_work_id(liter.id)  # Используем правильное имя
                     # Обновим существующий ответ
                     response = llm_client.send(name)
                     self.literary_repo.update_response(liter.id, response, llm=defoult_llm)

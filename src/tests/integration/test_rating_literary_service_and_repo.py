@@ -29,7 +29,7 @@ def create_test_users(session):
 
 def create_test_work(session):
     literary_repo = LiteraryWorksRepository(session)
-    test_name = "Тестовое произведение"
+    test_name = "тестовое произведение"
     work = literary_repo.get_by_name(test_name)
 
     if not work:

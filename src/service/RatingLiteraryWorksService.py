@@ -4,14 +4,15 @@ from src.db.repository import LiteraryWorksRepository
 
 
 class RatingLiteraryWorksService:
-    def __init__(self, rating_literary_works: RatingLiteraryWorksRepository, literary_repo: LiteraryWorksRepository):
-        self.literary_repo = literary_repo(get_session())
-        self.rating_literary_works = rating_literary_works(get_session())
+    def __init__(self, rating_literary_works_repo: RatingLiteraryWorksRepository, literary_repo: LiteraryWorksRepository):
+        self.rating_literary_works_repo = rating_literary_works_repo
+        self.literary_repo = literary_repo
+
 
     def add_rating(self, telegram_id: str, literary_name: str, rating):
         try:
             liter = self.literary_repo.get_by_name(literary_name)
-            return self.rating_literary_works.create(liter.id, telegram_id, rating)
+            return self.rating_literary_works_repo.create(liter.id, telegram_id, rating)
         except Exception as e:
             print(f"Ошибка при добавлении оценки: {str(e)}")
             return None
@@ -23,8 +24,8 @@ class RatingLiteraryWorksService:
                 print(f"Произведение '{literary_name}' не найдено.")
                 return False
 
-            avg = self.rating_literary_works.calculate_average_rating(liter.id)
-            count = self.rating_literary_works.count_ratings(liter.id)
+            avg = self.rating_literary_works_repo.calculate_average_rating(liter.id)
+            count = self.rating_literary_works_repo.count_ratings(liter.id)
 
             if avg is None or count == 0:
                 # Нет оценок вообще

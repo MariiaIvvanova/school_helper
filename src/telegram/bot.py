@@ -1,12 +1,17 @@
 import logging
 
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, CallbackQueryHandler
 
 from src.config import config
+from src.db.connect import get_session
 from src.telegram.commands import FIND_COMMAND, START_COMMAND
+from src.telegram.handler.evaluate_the_work import rating_button_handler
 from src.telegram.handler.find_litres import find_command
 from src.telegram.handler.start import start_command
 from src.telegram.handler.email import handle_email
+from src.db.repository.LiteraryWorksRepository import LiteraryWorksRepository
+from src.db.repository.RatingLiteraryWorksRepository import RatingLiteraryWorksRepository
+from src.service.RatingLiteraryWorksService import RatingLiteraryWorksService
 
 
 TOKEN = config.TG_BOT_KEY
@@ -18,17 +23,24 @@ logging.basicConfig(
 )
 
 
-
 def bot():
-    # Создаём приложение (Application) с указанным токеном
+    # создаём репозитории
+    literary_repo = LiteraryWorksRepository(get_session())
+    rating_repo = RatingLiteraryWorksRepository(get_session())
+
+    # создаём сервис
+    rating_service = RatingLiteraryWorksService(rating_repo, literary_repo)
+
+    # создаём приложение
     application = ApplicationBuilder().token(TOKEN).build()
 
-    # Регистрируем обработчики команд
+    # добавляем сервис в приложение
+    application.rating_service = rating_service
+
+    # обработчики
     application.add_handler(CommandHandler(FIND_COMMAND, find_command))
     application.add_handler(CommandHandler(START_COMMAND, start_command))
-    
-    # Регистрируем обработчик для email
+    application.add_handler(CallbackQueryHandler(rating_button_handler))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_email))
 
-    # Запускаем бота в режиме "polling" — бот будет регулярно опрашивать сервер Telegram
     application.run_polling()

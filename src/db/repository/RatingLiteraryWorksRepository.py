@@ -30,14 +30,20 @@ class RatingLiteraryWorksRepository:
         self.session.commit()
 
     def calculate_average_rating(self, work_id) -> int:
-        # Используем агрегатную функцию AVG для вычисления средней оценки
+        # агрегатная функция AVG для вычисления средней оценки
         average_rating = (self.session.query(func.avg(RatingLiteraryWorks.rating))
                           .filter(RatingLiteraryWorks.id_literary_works == work_id).scalar())
         return average_rating
 
     def count_ratings(self, work_id) -> int:
-        # Используем агрегатную функцию COUNT для подсчета количества оценок
+        # агрегатная функция COUNT для подсчета количества оценок
         rating_count = (self.session.query(func.count(RatingLiteraryWorks.rating))
                         .filter(RatingLiteraryWorks.id_literary_works == work_id)
                         .scalar())
         return rating_count
+
+    def get_user_by_telegram_id(self, telegram_id: str):
+        return self.session.query(Users).filter_by(telegram_id=telegram_id).first()
+
+    def get_by_user_and_work(self, user_id: int, work_id: int):
+        return self.session.query(RatingLiteraryWorks).filter_by(id_user=user_id, id_literary_works=work_id).first()
