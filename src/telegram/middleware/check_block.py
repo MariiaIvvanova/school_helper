@@ -4,6 +4,7 @@ from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 
+from src.db.connect import get_session
 from src.db.repository.UsersRepository import UsersRepository
 from src.service.UsersService import UsersService
 
@@ -13,7 +14,10 @@ def check_blocked():
         @wraps(func)
         async def wrapper(update: Update, context: ContextTypes.DEFAULT_TYPE, *args, **kwargs):
             telegram_id = str(update.effective_user.id)
-            users_service = UsersService(UsersRepository)
+
+            session = get_session()
+            users_repository = UsersRepository(session)  # Создаем экземпляр репозитория
+            users_service = UsersService(users_repository)  # Передаем экземпляр в сервис
 
             user = users_service.is_user_blocked(telegram_id)
             if user:

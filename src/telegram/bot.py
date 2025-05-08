@@ -4,11 +4,12 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
 
 from src.config import config
 from src.db.connect import get_session
-from src.telegram.commands import FIND_COMMAND, START_COMMAND
-from src.telegram.handler.evaluate_the_work import rating_button_handler
-from src.telegram.handler.find_litres import find_command
-from src.telegram.handler.start import start_command
-from src.telegram.handler.email import handle_email
+from src.telegram.commands import FIND_COMMAND, START_COMMAND, SET_BLOCK_COMMAND
+from src.telegram.handler.common.evaluate_the_work import rating_button_handler
+from src.telegram.handler.common.find_litres import find_command
+from src.telegram.handler.admin.set_block import block_command
+from src.telegram.handler.common.start import start_command
+from src.telegram.handler.common.email import handle_email
 from src.db.repository.LiteraryWorksRepository import LiteraryWorksRepository
 from src.db.repository.RatingLiteraryWorksRepository import RatingLiteraryWorksRepository
 from src.service.RatingLiteraryWorksService import RatingLiteraryWorksService
@@ -40,6 +41,7 @@ def bot():
     # обработчики
     application.add_handler(CommandHandler(FIND_COMMAND, find_command))
     application.add_handler(CommandHandler(START_COMMAND, start_command))
+    application.add_handler(CommandHandler(SET_BLOCK_COMMAND, block_command))
     application.add_handler(CallbackQueryHandler(rating_button_handler))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_email))
 

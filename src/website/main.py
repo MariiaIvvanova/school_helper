@@ -15,10 +15,8 @@ from src.service.RatingLiteraryWorksService import RatingLiteraryWorksService
 
 
 class SecureModelView(ModelView):
-    # Разрешаем просмотр поля id
-    column_display_pk = True  # Показывать первичный ключ (обычно id)
+    column_display_pk = True
 
-    # Если поле исключено, убираем из excluded
     form_excluded_columns = ()
 
     def is_accessible(self):
@@ -27,18 +25,18 @@ class SecureModelView(ModelView):
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('login'))
 
+
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'dev-key-please-change-in-production')
-# set optional bootswatch theme
-app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
+# app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
 
 admin = Admin(app, name='microblog', template_mode='bootstrap3')
-# Add administrative views here
 admin.add_view(SecureModelView(Users, get_session()))
 admin.add_view(SecureModelView(LiteraryWorks, get_session()))
 admin.add_view(SecureModelView(RatingLiteraryWorks, get_session()))
 
 PASSWORD = config.ADMIN_PASSWORD
+
 
 @app.route('/')
 def index():
@@ -74,6 +72,7 @@ def login():
 def logout():
     session.pop('logged_in', None)
     return redirect(url_for('index'))
+
 
 def web():
     app.run()

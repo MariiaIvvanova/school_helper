@@ -10,9 +10,9 @@ def check_word_limit_in_query(func):
         message = update.message.text.strip()  # Получаем текст сообщения
 
         # Проверка на количество слов и длину текста
-        if len(message.split()) > 5 or len(message) > 50:
+        if len(message.split()) > 7 or len(message) > 60:
             await update.message.reply_text(
-                "❗ Слишком много слов. Введите название литературного произведения (до 5 слов).",
+                "❗ Слишком много слов. Введите название литературного произведения (до 7 слов).",
                 parse_mode=ParseMode.MARKDOWN
             )
             return  # Если ограничение нарушено, не выполняем основную функцию
