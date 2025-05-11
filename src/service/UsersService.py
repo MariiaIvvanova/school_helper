@@ -1,4 +1,3 @@
-from src.db.connect import get_session
 from src.db.model.constants import UserRole
 from src.db.repository import UsersRepository
 
@@ -62,4 +61,3 @@ class UsersService:
         except Exception as e:
             print(f"Ошибка при установке роли: {str(e)}")
             return False
-

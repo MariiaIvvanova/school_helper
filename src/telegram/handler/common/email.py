@@ -2,6 +2,7 @@ from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 
+from src.db.connect import get_session
 from src.db.repository.UsersRepository import UsersRepository
 from src.service.UsersService import UsersService
 
@@ -20,7 +21,9 @@ async def handle_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     try:
-        users_service = UsersService(UsersRepository)
+        session = get_session()
+        users_repository = UsersRepository(session)
+        users_service = UsersService(users_repository)
         user = users_service.register(
             telegram_id=str(update.effective_user.id),
             user_name=update.effective_user.username or "Unknown",

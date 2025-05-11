@@ -4,7 +4,8 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
 
 from src.config import config
 from src.db.connect import get_session
-from src.telegram.commands import FIND_COMMAND, START_COMMAND, SET_BLOCK_COMMAND
+from src.telegram.commands import FIND_COMMAND, START_COMMAND, SET_BLOCK_COMMAND, SET_ROLE_COMMAND
+from src.telegram.handler.admin.set_role import role_command
 from src.telegram.handler.common.evaluate_the_work import rating_button_handler
 from src.telegram.handler.common.find_litres import find_command
 from src.telegram.handler.admin.set_block import block_command
@@ -42,6 +43,7 @@ def bot():
     application.add_handler(CommandHandler(FIND_COMMAND, find_command))
     application.add_handler(CommandHandler(START_COMMAND, start_command))
     application.add_handler(CommandHandler(SET_BLOCK_COMMAND, block_command))
+    application.add_handler(CommandHandler(SET_ROLE_COMMAND, role_command))
     application.add_handler(CallbackQueryHandler(rating_button_handler))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_email))
 

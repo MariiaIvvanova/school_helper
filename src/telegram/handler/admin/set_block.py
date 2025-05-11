@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from telegram import Update
-from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 
 from src.db.model.constants import UserRole

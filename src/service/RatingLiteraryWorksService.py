@@ -38,4 +38,3 @@ class RatingLiteraryWorksService:
         except Exception as e:
             print(f"Ошибка при проверке оценки: {str(e)}")
             return False
-
