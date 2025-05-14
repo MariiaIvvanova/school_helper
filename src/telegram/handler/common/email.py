@@ -6,12 +6,12 @@ from src.db.connect import get_session
 from src.db.repository.UsersRepository import UsersRepository
 from src.service.UsersService import UsersService
 
+
 async def handle_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.user_data.get('awaiting_email'):
         return
 
     email = update.message.text.strip()
-    
     # Простая валидация email
     if '@' not in email or '.' not in email:
         await update.message.reply_text(
@@ -29,10 +29,10 @@ async def handle_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
             user_name=update.effective_user.username or "Unknown",
             email=email
         )
-        
+
         if user:
             context.user_data.pop('awaiting_email', None)
-            
+
             await update.message.reply_text(
                 "Спасибо за регистрацию! Теперь вы можете использовать бота.\n"
                 "Используйте команду /find для поиска информации о книгах.",
